@@ -314,6 +314,7 @@
     <p><strong>Author:</strong> Makoto Yukimura</p>
     <p><strong>Year:</strong> 2005</p>
   </div>
+  <span class="status">📖 Reading (pain every chapter)</span>
 </td>
 <td style="background-image:https://www.syfy.com/sites/syfy/files/hellsing-impure-souls-via-amazon.jpg;">
   <a href="https://mangakakalot.com/chapter/jzde76471556853820/chapter_1">
