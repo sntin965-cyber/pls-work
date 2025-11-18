@@ -1,344 +1,275 @@
 # pls-work
 1st code     (19/11/25)
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Yes!</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manga Recommendation Gallery</title>
 <style>
-
     @import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
 
-    body {
-      background-image: url('https://www.transparenttextures.com/patterns/paper.png');
-      background-size: cover;
-      font-family: 'Rock Salt', sans-serif;
-      color: #333;
-      text-align: center;
-      padding: 20px;
-      animation: fadeInBody 1.5s ease-in-out;
+    :root {
+        --card-bg-texture: url('https://www.transparenttextures.com/patterns/brushed-alum.png');
+        --page-bg-texture: url('https://www.transparenttextures.com/patterns/paper.png');
     }
 
+    body {
+        background-image: var(--page-bg-texture);
+        background-size: cover;
+        font-family: 'Rock Salt', cursive;
+        color: #333;
+        text-align: center;
+        padding: 20px;
+        margin: 0;
+        animation: fadeInBody 1.5s ease-in-out;
+    }
+
+    /* Keyframes */
     @keyframes fadeInBody {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Header Styling */
     h1 {
-      color: #111;
-      background-color: rgba(255, 255, 255, 0.8);
-      padding: 15px;
-      font-size: 35px;
-      text-align: center;
-      margin-bottom: 40px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      border-radius: 10px;
-      width: 80%;
-      margin-left: auto;
-      margin-right: auto;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      animation: fadeIn 1s ease-in-out;
+        color: #111;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        font-size: clamp(24px, 5vw, 40px); /* Responsive font size */
+        text-align: center;
+        margin: 0 auto 40px auto;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        border-radius: 10px;
+        max-width: 800px;
+        width: 90%;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 1s ease-in-out;
     }
 
-    table {
-      width: 100%;
-      max-width: 1200px;
-      margin: auto;
-      border-collapse: separate;
-      border-spacing: 20px;
-      table-layout: auto;
+    /* Grid Layout (Replaces Table) */
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 10px;
     }
 
-    td {
-      padding: 15px;
-      text-align: center;
-      vertical-align: top;
-      width: 33%;
-      background-size: cover;
-      color: #f4f4f4;
-      position: relative;
-      background-color: rgba(0, 0, 0, 0.6);
-      border-radius: 10px;
-      background-image: url('https://www.transparenttextures.com/patterns/brushed-alum.png');
-      background-blend-mode: multiply;
-      transition: transform 0.3s ease, background-color 0.3s ease;
-      height: 450px;
-      overflow: hidden;
-      animation: fadeIn 1.2s ease-in-out;
+    /* Card Styling */
+    .manga-card {
+        padding: 20px;
+        text-align: center;
+        color: #f4f4f4;
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 10px;
+        background-image: var(--card-bg-texture);
+        background-blend-mode: multiply;
+        background-size: cover;
+        transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        animation: fadeIn 1.2s ease-in-out;
+        /* Ensure the background image covers the card logic */
+        background-position: center; 
+        background-repeat: no-repeat;
+        border: 1px solid rgba(0,0,0,0.3);
     }
 
-    td:hover {
-      transform: scale(1.05);
-      background-color: rgba(0, 0, 0, 0.8);
+    .manga-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        background-color: rgba(0, 0, 0, 0.8);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        z-index: 10;
     }
 
-    img {
-      width: 100%;
-      height: auto;
-      margin-bottom: 10px;
-      border: 3px solid #000000;
-      border-radius: 8px;
-      transition: transform 0.3s ease;
+    /* Image Styling */
+    .manga-card img {
+        width: 100%;
+        max-width: 250px;
+        height: 350px; /* Fixed height for consistency */
+        object-fit: cover; /* Prevents stretching */
+        margin-bottom: 15px;
+        border: 3px solid #000;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
     }
 
-    img:hover {
-      transform: scale(1.08);
+    .manga-card img:hover {
+        transform: scale(1.05);
     }
 
+    /* Typography */
     h3 {
-      font-size: 2em;
-      color: #000;
-      margin: 0;
-      text-transform: uppercase;
+        font-size: 1.5em;
+        color: #fff; /* Changed to white for better contrast on dark card */
+        text-shadow: 2px 2px 0 #000;
+        margin: 10px 0;
+        text-transform: uppercase;
     }
 
-    p {
-      font-size: 1.1em;
-      line-height: 1.6;
-      padding: 10px;
-      background-color: rgba(0, 0, 0, 0.7);
-      color: #f4f4f4;
-      margin-top: 10px;
-      border-radius: 5px;
+    p.description {
+        font-size: 1em;
+        line-height: 1.5;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: #f4f4f4;
+        margin-top: auto; /* Pushes content down if flex container */
+        border-radius: 5px;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: sans-serif; /* readable font for body text */
     }
 
     .manga-info {
-      font-size: 1em;
-      margin-top: 10px;
-      font-style: italic;
+        font-size: 0.9em;
+        margin-top: 10px;
+        font-style: italic;
+        background: rgba(255,255,255,0.1);
+        padding: 5px;
+        border-radius: 4px;
+        width: 100%;
     }
-  </style>
+    
+    .manga-info p {
+        margin: 5px 0;
+        font-family: sans-serif;
+    }
+
+</style>
 </head>
 <body>
-  <h1> Manga Manga Manga</h1>
-  <table>
-    <tr>
-      <td style="background-image: https://comicvine.gamespot.com/a/uploads/scale_small/6/67663/5971811-34.jpg;">
+
+  <h1>Manga that I like</h1>
+
+  <div class="gallery-grid">
+    
+    <!-- Berserk -->
+    <div class="manga-card" style="background-image: url('https://comicvine.gamespot.com/a/uploads/scale_small/6/67663/5971811-34.jpg');">
         <a href="https://theberserk.online/">
-          <img src="https://comicvine.gamespot.com/a/uploads/scale_small/6/67663/5971811-34.jpg" alt="Berserk">
+            <img src="https://comicvine.gamespot.com/a/uploads/scale_small/6/67663/5971811-34.jpg" alt="Berserk">
         </a>
         <h3>Berserk</h3>
-        <p>A dark fantasy series following Guts, a lone mercenary with a tragic past, as he battles demonic forces and seeks revenge in a brutal world.</p>
+        <p class="description">A dark fantasy series following Guts, a lone mercenary with a tragic past, as he battles demonic forces.</p>
         <div class="manga-info">
-          <p><strong>Author:</strong> Kentaro Miura</p>
-          <p><strong>Year:</strong> 1989</p>
+            <p><strong>Author:</strong> Kentaro Miura</p>
+            <p><strong>Year:</strong> 1989</p>
         </div>
-      </td>
-      <td style="background-image: https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1573988886i/453706.jpg;">
+    </div>
+
+    <!-- Vagabond -->
+    <div class="manga-card" style="background-image: url('https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1573988886i/453706.jpg');">
         <a href="https://readvagabond-manga.online/">
-          <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1573988886i/453706.jpg" alt="Vagabond">
+            <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1573988886i/453706.jpg" alt="Vagabond">
         </a>
         <h3>Vagabond</h3>
-        <p>A reimagining of swordsman Miyamoto Musashi's life, following his journey from an aimless youth to a revered samurai.</p>
+        <p class="description">A reimagining of swordsman Miyamoto Musashi's life, following his journey from an aimless youth to a revered samurai.</p>
         <div class="manga-info">
-          <p><strong>Author:</strong> Takehiko Inoue</p>
-          <p><strong>Year:</strong> 1998</p>
+            <p><strong>Author:</strong> Takehiko Inoue</p>
+            <p><strong>Year:</strong> 1998</p>
         </div>
-      </td>
-      <td style="background-image: https://i0.wp.com/halcyonrealms.com/blogpics/slamdunknew07.jpg?resize=500%2C780&ssl=1;">
+    </div>
+
+    <!-- Slam Dunk -->
+    <div class="manga-card" style="background-image: url('https://i0.wp.com/halcyonrealms.com/blogpics/slamdunknew07.jpg?resize=500%2C780&ssl=1');">
         <a href="https://www.viz.com/slam-dunk">
-          <img src="https://i0.wp.com/halcyonrealms.com/blogpics/slamdunknew07.jpg?resize=500%2C780&ssl=1">
+            <img src="https://i0.wp.com/halcyonrealms.com/blogpics/slamdunknew07.jpg?resize=500%2C780&ssl=1" alt="Slam Dunk">
         </a>
         <h3>Slam Dunk</h3>
-        <p>Hanamichi Sakuragi, a high school delinquent, discovers a passion for basketball, transforming himself into an unstoppable force on the court.</p>
+        <p class="description">Hanamichi Sakuragi, a high school delinquent, discovers a passion for basketball.</p>
         <div class="manga-info">
-          <p><strong>Author:</strong> Takehiko Inoue</p>
-          <p><strong>Year:</strong> 1990</p>
+            <p><strong>Author:</strong> Takehiko Inoue</p>
+            <p><strong>Year:</strong> 1990</p>
         </div>
-      </td>
-    </tr>
-    <tr>
-      <td style="background-image: https://static1.srcdn.com/wordpress/wp-content/uploads/2024/02/81n5iu4ehal-_sl1500_.jpg;">
+    </div>
+
+    <!-- One Piece -->
+    <div class="manga-card" style="background-image: url('https://static1.srcdn.com/wordpress/wp-content/uploads/2024/02/81n5iu4ehal-_sl1500_.jpg');">
         <a href="https://www.viz.com/shonenjump/one-piece-chapter-1/chapter/5090">
-          <img src="https://static1.srcdn.com/wordpress/wp-content/uploads/2024/02/81n5iu4ehal-_sl1500_.jpg" alt="One Piece">
+            <img src="https://static1.srcdn.com/wordpress/wp-content/uploads/2024/02/81n5iu4ehal-_sl1500_.jpg" alt="One Piece">
         </a>
         <h3>One Piece</h3>
-        <p>The adventure of Monkey D. Luffy and his pirate crew as they search for the ultimate treasure, the One Piece, across strange islands and fierce enemies.</p>
+        <p class="description">The adventure of Monkey D. Luffy and his pirate crew as they search for the ultimate treasure.</p>
         <div class="manga-info">
-          <p><strong>Author:</strong> Eiichiro Oda</p>
-          <p><strong>Year:</strong> 1997</p>
+            <p><strong>Author:</strong> Eiichiro Oda</p>
+            <p><strong>Year:</strong> 1997</p>
         </div>
-      </td>
-      <td style="background-image:https://acdn.mitiendanube.com/stores/227/495/products/deathnote121-e29f39a32cb2a67e3816124654671555-640-0.jpg;">
+    </div>
+
+    <!-- Death Note -->
+    <div class="manga-card" style="background-image: url('https://acdn.mitiendanube.com/stores/227/495/products/deathnote121-e29f39a32cb2a67e3816124654671555-640-0.jpg');">
         <a href="https://deathnote-manga.online/">
-          <img src="https://acdn.mitiendanube.com/stores/227/495/products/deathnote121-e29f39a32cb2a67e3816124654671555-640-0.jpg">
+            <img src="https://acdn.mitiendanube.com/stores/227/495/products/deathnote121-e29f39a32cb2a67e3816124654671555-640-0.jpg" alt="Death Note">
         </a>
         <h3>Death Note</h3>
-        <p>After finding a notebook with the power to kill, Light Yagami tries to rid the world of criminals, only to be challenged by the detective L.</p>
+        <p class="description">Light Yagami tries to rid the world of criminals with a notebook that kills, challenged by the detective L.</p>
         <div class="manga-info">
-          <p><strong>Author:</strong> Tsugumi Ohba & Takeshi Obata</p>
-          <p><strong>Year:</strong> 2003</p>
+            <p><strong>Author:</strong> Tsugumi Ohba</p>
+            <p><strong>Year:</strong> 2003</p>
         </div>
-      </td>
-      <td style="background-image: https://1.bp.blogspot.com/-Bg5z3r-HTs4/XcyIBguS1DI/AAAAAAAAAtU/K5UgxBUjbW88l6dDOSW5zjGWHSzbjponQCLcBGAsYHQ/s1600/001.jpg;">
+    </div>
+
+    <!-- Kengan Ashura -->
+    <div class="manga-card" style="background-image: url('https://1.bp.blogspot.com/-Bg5z3r-HTs4/XcyIBguS1DI/AAAAAAAAAtU/K5UgxBUjbW88l6dDOSW5zjGWHSzbjponQCLcBGAsYHQ/s1600/001.jpg');">
         <a href="https://read-kengan-ashura.com/">
-          <img src="https://1.bp.blogspot.com/-Bg5z3r-HTs4/XcyIBguS1DI/AAAAAAAAAtU/K5UgxBUjbW88l6dDOSW5zjGWHSzbjponQCLcBGAsYHQ/s1600/001.jpg" alt="Kengan Ashura">
+            <img src="https://1.bp.blogspot.com/-Bg5z3r-HTs4/XcyIBguS1DI/AAAAAAAAAtU/K5UgxBUjbW88l6dDOSW5zjGWHSzbjponQCLcBGAsYHQ/s1600/001.jpg" alt="Kengan Ashura">
         </a>
         <h3>Kengan Ashura</h3>
-        <p>In a world where business deals are settled through gladiator fights, Tokita Ohma enters brutal matches to prove his strength.</p>
+        <p class="description">In a world where business deals are settled through gladiator fights, Tokita Ohma enters brutal matches.</p>
         <div class="manga-info">
-          <p><strong>Author:</strong> Yabako Sandrovich & Daromeon</p>
-          <p><strong>Year:</strong> 2012</p>
+            <p><strong>Author:</strong> Yabako Sandrovich</p>
+            <p><strong>Year:</strong> 2012</p>
         </div>
-      </td>
-    </tr>
-    <tr>
-      <td style="background-image: https://jpbookstore.com/cdn/shop/products/A1yjFdq4LKL_580x.jpg?v=1615372256;">
+    </div>
+
+     <!-- Baki -->
+     <div class="manga-card" style="background-image: url('https://jpbookstore.com/cdn/shop/products/A1yjFdq4LKL_580x.jpg?v=1615372256');">
         <a href="https://manga-baki.com/">
-          <img src="https://jpbookstore.com/cdn/shop/products/A1yjFdq4LKL_580x.jpg?v=1615372256" alt="Baki Hanma">
+            <img src="https://jpbookstore.com/cdn/shop/products/A1yjFdq4LKL_580x.jpg?v=1615372256" alt="Baki">
         </a>
         <h3>Baki Hanma</h3>
-        <p>Baki trains to surpass his father, the strongest man alive, pushing himself in battles against the world’s fiercest fighters.</p>
+        <p class="description">Baki trains to surpass his father, the strongest man alive, pushing himself in battles against the world’s fiercest fighters.</p>
         <div class="manga-info">
-          <p><strong>Author:</strong>Keisuke Itagaki</p>
-          <p><strong>Year:</strong>1991</p>
+            <p><strong>Author:</strong> Keisuke Itagaki</p>
+            <p><strong>Year:</strong> 1991</p>
         </div>
-      </td>
-      <td style="background-image: https://preview.redd.it/o6l789ztztw41.png?auto=webp&s=82ffe726083b845056caa9072fedc3a861a376ae;">
+    </div>
+
+    <!-- Evangelion -->
+    <div class="manga-card" style="background-image: url('https://preview.redd.it/o6l789ztztw41.png?auto=webp&s=82ffe726083b845056caa9072fedc3a861a376ae');">
         <a href="https://neon-genesis-evangelion-online.com/">
-          <img src="https://preview.redd.it/o6l789ztztw41.png?auto=webp&s=82ffe726083b845056caa9072fedc3a861a376ae" alt="Neon Genesis Evangelion">
+            <img src="https://preview.redd.it/o6l789ztztw41.png?auto=webp&s=82ffe726083b845056caa9072fedc3a861a376ae" alt="Eva">
         </a>
-        <h3>Neon Genesis Evangelion</h3>
-        <p>Teen Shinji Ikari pilots a giant mech to defend humanity from Angels, while struggling with internal battles.</p>
+        <h3>Evangelion</h3>
+        <p class="description">Teen Shinji Ikari pilots a giant mech to defend humanity from Angels, while struggling with internal battles.</p>
         <div class="manga-info">
-          <p><strong>Author:</strong> Yoshiyuki Sadamoto</p>
-          <p><strong>Year:</strong> 1994</p>
+            <p><strong>Author:</strong> Yoshiyuki Sadamoto</p>
+            <p><strong>Year:</strong> 1994</p>
         </div>
-      </td>
-      <td style="background-image: https://comicvine.gamespot.com/a/uploads/scale_small/11133/111331711/6453585-volume_62.jpg;">
+    </div>
+
+    <!-- Jojo -->
+    <div class="manga-card" style="background-image: url('https://comicvine.gamespot.com/a/uploads/scale_small/11133/111331711/6453585-volume_62.jpg');">
         <a href="https://jojosba.com/">
-          <img src="https://comicvine.gamespot.com/a/uploads/scale_small/11133/111331711/6453585-volume_62.jpg" alt="JoJo's Bizarre Adventure">
+            <img src="https://comicvine.gamespot.com/a/uploads/scale_small/11133/111331711/6453585-volume_62.jpg" alt="Jojo">
         </a>
         <h3>JoJo's Bizarre Adventure</h3>
-        <p>An epic tale of the Joestar family across generations, each with unique powers and battling supernatural foes.</p>
-          <div class="manga-info">
-          <p><strong>Author:</strong> Hirohiko Araki</p>
-          <p><strong>Year:</strong> 1987</p>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td style="background-image: https://preview.redd.it/i-made-this-page-into-a-volume-cover-v0-d2kxhtnwzbhd1.png?width=640&crop=smart&auto=webp&s=469244549cdfdc23a5e469b92e3d18b94c99057a;">
-        <a href="https://www.viz.com/chainsaw-man">
-          <img src="https://preview.redd.it/i-made-this-page-into-a-volume-cover-v0-d2kxhtnwzbhd1.png?width=640&crop=smart&auto=webp&s=469244549cdfdc23a5e469b92e3d18b94c99057a" alt="Chainsaw Man">
-        </a>
-        <h3>Chainsaw Man</h3>
-        <p>Denji, a young devil hunter, merges with his chainsaw devil companion to fight devils in a dangerous world.</p>
+        <p class="description">An epic tale of the Joestar family across generations, each with unique powers and battling supernatural foes.</p>
         <div class="manga-info">
-          <p><strong>Author:</strong> Tatsuki Fujimoto</p>
-          <p><strong>Year:</strong> 2018</p>
+            <p><strong>Author:</strong> Hirohiko Araki</p>
+            <p><strong>Year:</strong> 1987</p>
         </div>
-      </td>
+    </div>
 
-      <td style="background-image: https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781974747245/kagurabachi-vol-1-9781974747245_hr.jpg;">
-        <a href="https://readkagura.com/">
-          <img src="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781974747245/kagurabachi-vol-1-9781974747245_hr.jpg" alt="Kagurabachi">
-        </a>
-        <h3>Kagurabachi</h3>
-        <p>A swordsmith's journey for vengeance and redemption in a magical world.</p>
-        <div class="manga-info">
-          <p><strong>Author:</strong> Takeru Hokazono</p>
-          <p><strong>Year:</strong> 2023</p>
-        </div>
-      </td>
-      <td style="background-image: https://preview.redd.it/96pu86uw88y71.png?width=640&crop=smart&auto=webp&s=46dd52de67b8f276df32389928ef30ce9ea89af0;">
-        <a href="https://www.viz.com/hunter-x-hunter">
-          <img src="https://preview.redd.it/96pu86uw88y71.png?width=640&crop=smart&auto=webp&s=46dd52de67b8f276df32389928ef30ce9ea89af0" alt="Hunter x Hunter">
-        </a>
-        <h3>Hunter x Hunter</h3>
-        <p>The adventures of Gon Freecss and his journey to find his father in a world of Hunters.</p>
-        <div class="manga-info">
-          <p><strong>Author:</strong> Yoshihiro Togashi</p>
-          <p><strong>Year:</strong> 1998</p>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td style="background-image: https://i.ebayimg.com/images/g/kKoAAOSwXl9llqbh/s-l1200.jpg;">
-        <a href="https://mangaplus.shueisha.co.jp/titles/100209">
-          <img src="https://i.ebayimg.com/images/g/kKoAAOSwXl9llqbh/s-l1200.jpg" alt="Tokyo Underworld">
-        </a>
-        <h3>Tokyo Underworld</h3>
-        <p>A thrilling tale of gangs and supernatural elements in Tokyo's dark alleys.</p>
-        <div class="manga-info">
-          <p><strong>Author:</strong> Kenji Sakaki</p>
-          <p><strong>Year:</strong> 2022</p>
-        </div>
-      </td>
-      <td style="background-image: https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781421569116/monster-vol-6-9781421569116_hr.jpg;">
-        <a href="https://medibang.com/mpc/episodes/x22305180432321150024295173/?locale=en">
-          <img src="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781421569116/monster-vol-6-9781421569116_hr.jpg" alt="Dandadan">
-        </a>
-        <h3>Monster</h3>
-        <p>The story follows Kenzo Tenma, a Japanese surgeon in Düsseldorf, Germany, whose life spirals into chaos after saving Johan Liebert, a former patient who turns out to be a psychopathic serial killer.</p>
-        <div class="manga-info">
-          <p><strong>Author:</strong>Naoki Urasawa</p>
-          <p><strong>Year:</strong>1994</p>
-        </div>
-      </td>
-      <td style="background-image: https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1728620747i/63847293.jpg;">
-        <a href="https://housekinokunimanga.com/manga/houseki-no-kuni-chapter-105/">
-          <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1728620747i/63847293.jpg" alt="Kaiju No. 8">
-        </a>
-        <h3>Land of the lustrous</h3>
-        <p>Phos, a gemstone-like being, in their quest to find purpose and strength in a world where gem-like creatures battle mysterious moon dwellers.</p>
-        <div class="manga-info">
-          <p><strong>Author:</strong>Haruko Ichikawa</p>
-          <p><strong>Year:</strong>2012</p>
-        </div>
-      </td>
-    </tr>
-    <tr>
-<td style="background-image: https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1668020448i/63264669.jpg;">
-  <a href="https://www.vinlandsagamanga.net/manga/vinland-saga-chapter-27/">
-    <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1668020448i/63264669.jpg" alt="Vinland Saga">
-  </a>
-  <h3>Vinland Saga</h3>
-  <p>The story follows Thorfinn, the son of a former Viking warrior, on a journey of revenge and self-discovery during the Viking Age.</p>
-  <div class="manga-info">
-    <p><strong>Author:</strong> Makoto Yukimura</p>
-    <p><strong>Year:</strong> 2005</p>
   </div>
-  <span class="status">📖 Reading (pain every chapter)</span>
-</td>
-<td style="background-image:https://www.syfy.com/sites/syfy/files/hellsing-impure-souls-via-amazon.jpg;">
-  <a href="https://mangakakalot.com/chapter/jzde76471556853820/chapter_1">
-    <img src="https://www.syfy.com/sites/syfy/files/hellsing-impure-souls-via-amazon.jpg" alt="Hellsing">
-  </a>
-  <h3>Hellsing</h3>
-  <p>The story follows the Hellsing Organization as they combat supernatural threats, including vampires and ghouls, with the help of their ultimate weapon, Alucard.</p>
-  <div class="manga-info">
-    <p><strong>Author:</strong> Kouta Hirano</p>
-    <p><strong>Year:</strong> 1997</p>
-  </div>
-</td>
-<td style="background-image: https://howlongtobeat.com/games/1574_Castlevania_Judgment.jpg;">
-  <a href="https://mangakakalot.com/chapter/castlevania_curse_of_darkness/chapter_1">
-    <img src="https://howlongtobeat.com/games/1574_Castlevania_Judgment.jpg" alt="Castlevania">
-  </a>
-  <h3>Castlevania</h3>
-  <p>The story follows Trevor Belmont and his companions as they battle Dracula and his army of creatures of the night to save humanity.</p>
-  <div class="manga-info">
-    <p><strong>Author:</strong>Kō Sasakura</p>
-    <p><strong>Year:</strong>1986</p>
-   </div>
- </td>
-</tr
-</table>
+
 </body>
 </html>
